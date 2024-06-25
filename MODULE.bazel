@@ -1,0 +1,17 @@
+"""
+An experiment with creating Kotlin libraries using pbandk and Bazel.
+"""
+
+module(
+    name = "bazel_kotlin_proto",
+    version = "0.1",
+)
+
+bazel_dep(name = "rules_kotlin", repo_name = "io_bazel_rules_kotlin", version = "1.9.5")
+
+register_toolchains("//:kotlin_toolchain")
+
+bazel_dep(name = "protobuf", version = "27.1")
+bazel_dep(name = "rules_proto", version = "6.0.2")
+bazel_dep(name = "toolchains_protoc", version = "0.3.1")
+
