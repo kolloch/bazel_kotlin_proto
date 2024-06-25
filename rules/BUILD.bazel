@@ -1,0 +1,9 @@
+load("@rules_java//java:defs.bzl", "java_binary")
+
+java_binary(
+    name = "protoc-gen-pbandk",
+    main_class = "org.springframework.boot.loader.JarLauncher",
+    runtime_deps = [
+        "@protoc-gen-pbandk-jvm//jar",
+    ],
+)

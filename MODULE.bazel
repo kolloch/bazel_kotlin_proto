@@ -15,3 +15,30 @@ bazel_dep(name = "protobuf", version = "27.1")
 bazel_dep(name = "rules_proto", version = "6.0.2")
 bazel_dep(name = "toolchains_protoc", version = "0.3.1")
 
+bazel_dep(name = "rules_java", version = "7.6.1")
+bazel_dep(name = "rules_jvm_external", version = "6.1")
+
+maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
+
+maven.install(
+    artifacts = [
+        "pro.streem.pbandk:pbandk-runtime-jvm:0.14.1",
+    ],
+    repositories = [
+        "https://repo1.maven.org/maven2",
+    ],
+    lock_file = "//:maven_install.json",
+)
+
+use_repo(
+    maven,
+    "maven",
+)
+
+http_jar = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_jar")
+
+http_jar(
+    name = "protoc-gen-pbandk-jvm",
+    sha256 = "346c1e2d33c4b8aea87fb8f8724e64a9bb6b6ef31440a0ba459744e57753baef",
+    urls = ["https://repo1.maven.org/maven2/pro/streem/pbandk/protoc-gen-pbandk-jvm/0.14.2/protoc-gen-pbandk-jvm-0.14.2-jvm8.jar"],
+)
