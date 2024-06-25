@@ -1,9 +1,23 @@
 load("@rules_java//java:defs.bzl", "java_binary")
+load("@rules_proto//proto:defs.bzl", "proto_lang_toolchain")
+load("@rules_jvm_external//:defs.bzl", "artifact")
+
+toolchain_type(name = "toolchain_type", visibility = ["//visibility:public"],)
 
 java_binary(
-    name = "protoc-gen-pbandk",
+    name = "pbandk_proto_plugin",
     main_class = "org.springframework.boot.loader.JarLauncher",
     runtime_deps = [
         "@protoc-gen-pbandk-jvm//jar",
     ],
+)
+
+proto_lang_toolchain(
+    name = "protoc_pbankd_toolchain",
+    command_line = "--pbandk_out=%s",
+    plugin = ":pbandk_proto_plugin",
+    runtime = artifact("pro.streem.pbandk:pbandk-runtime-jvm"),
+    progress_message = "Generating pbankd Kotlin proto_library %{label}",
+    # This target should be declared by the language rules:
+    toolchain_type = ":toolchain_type",
 )
